@@ -6,6 +6,7 @@ public class Comer : State
 {
     void Start()
     {
+        RandeArray();
         LoadComponent();
     }
     public override void LoadComponent()
@@ -32,7 +33,6 @@ public class Comer : State
                 m_MachineState.NextState(TypeState.Dormir);
                 return;
             }
-                
           
             playerStats.hunger = Mathf.Clamp(playerStats.hunger + Random.Range(4, 10), 0, 100);
             if (playerStats.hunger == 100)

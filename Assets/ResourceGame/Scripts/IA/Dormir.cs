@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Dormir : State
 {
-
     void Start()
     {
+        RandeArray();
         LoadComponent();
     }
     public override void LoadComponent()
