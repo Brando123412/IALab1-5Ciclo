@@ -34,21 +34,12 @@ public class Jugar : State
                 m_MachineState.NextState(TypeState.Dormir);
                 return;
             }
-
             playerStats.hunger = Mathf.Clamp(playerStats.hunger - Random.Range(4, 10), 0, 100);
             if (playerStats.hunger == 0)
             {
                 m_MachineState.NextState(TypeState.Comer);
                 return;
             }
-
-            playerStats.bathroom = Mathf.Clamp(playerStats.bathroom - Random.Range(4, 10), 0, 100);
-            if (playerStats.bathroom == 0)
-            {
-                m_MachineState.NextState(TypeState.Jugar);
-                return;
-            }
-
         }
         FrameRate += Time.deltaTime;
     }
@@ -58,16 +49,6 @@ public class Jugar : State
     }
     void Update()
     {
-        if(FrameRate> arrayTime[index])
-        {
-            FrameRate = 0;
-            index++;
-            if (index == arrayTime.Length)
-                RandeArray();
-            index = index % arrayTime.Length;
-
-            m_MachineState.NextState(TypeState.Banno);
-        }
-        FrameRate += Time.deltaTime; 
+        Execute();
     }
 }

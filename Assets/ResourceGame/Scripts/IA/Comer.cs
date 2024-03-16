@@ -28,31 +28,32 @@ public class Comer : State
             index = index % arrayTime.Length;
 
             playerStats.energy = Mathf.Clamp(playerStats.energy -Random.Range(4, 10),0,100);
-            if(playerStats.energy == 0)
-            {
-                m_MachineState.NextState(TypeState.Dormir);
-                return;
-            }
-          
+
             playerStats.hunger = Mathf.Clamp(playerStats.hunger + Random.Range(4, 10), 0, 100);
-            if (playerStats.hunger == 100)
-            {
-                m_MachineState.NextState(TypeState.Jugar);
-                return;
-            }
 
             playerStats.bathroom = Mathf.Clamp(playerStats.bathroom + Random.Range(4, 10), 0, 100);
+
             if (playerStats.bathroom == 100)
             {
                 m_MachineState.NextState(TypeState.Banno);
                 return;
             }
-                
+            if(playerStats.energy == 0 && playerStats.hunger == 100)
+            {
+                m_MachineState.NextState(TypeState.Dormir);
+            }else if (playerStats.hunger == 100 && playerStats.energy > 0)
+            {
+                m_MachineState.NextState(TypeState.Jugar);
+            }
         }
         FrameRate += Time.deltaTime;
     }
     public override void Exit()
     {
 
+    }
+    void Update()
+    {
+        Execute();
     }
 }

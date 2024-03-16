@@ -28,25 +28,21 @@ public class Banno : State
                 RandeArray();
             index = index % arrayTime.Length;
 
-            playerStats.energy = Mathf.Clamp(playerStats.energy - Random.Range(4, 10), 0, 100);
-            if (playerStats.energy == 0)
-            {
-                m_MachineState.NextState(TypeState.Dormir);
-                return;
-            }
+            playerStats.energy = Mathf.Clamp(playerStats.energy - Random.Range(4, 15), 0, 100);
 
-            playerStats.hunger = Mathf.Clamp(playerStats.hunger - Random.Range(4, 10), 0, 100);
-            if (playerStats.hunger == 0)
-            {
-                m_MachineState.NextState(TypeState.Comer);
-                return;
-            }
+            playerStats.hunger = Mathf.Clamp(playerStats.hunger - Random.Range(2, 5), 0, 100);
 
-            playerStats.bathroom = Mathf.Clamp(playerStats.bathroom - Random.Range(4, 10), 0, 100);
-            if (playerStats.bathroom == 0)
+            playerStats.bathroom = Mathf.Clamp(playerStats.bathroom - Random.Range(10, 20), 0, 100);
+
+            if (playerStats.bathroom == 0 && playerStats.energy > 0 && playerStats.hunger > 0)
             {
                 m_MachineState.NextState(TypeState.Jugar);
-                return;
+            }else if (playerStats.bathroom == 0 && playerStats.energy == 0)
+            {
+                m_MachineState.NextState(TypeState.Dormir);
+            }else if (playerStats.bathroom == 0 && playerStats.hunger == 0)
+            {
+                m_MachineState.NextState(TypeState.Comer);
             }
 
         }
@@ -58,16 +54,6 @@ public class Banno : State
     }
     void Update()
     {
-        if (FrameRate > arrayTime[index])
-        {
-            FrameRate = 0;
-            index++;
-            if (index == arrayTime.Length)
-                RandeArray();
-            index = index % arrayTime.Length;
-
-            m_MachineState.NextState(TypeState.Jugar);
-        }
-        FrameRate += Time.deltaTime;
+        Execute();
     }
 }
